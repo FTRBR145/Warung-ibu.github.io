@@ -10,8 +10,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0;0,300;0,400;0,700;1,700&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
 
   <!-- Feather Icons -->
   <script src="https://unpkg.com/feather-icons"></script>
@@ -130,39 +129,60 @@
   <section class="products" id="products" x-data="products">
     <h2><span>Produk</span> Kami</h2>
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo unde eum, ab fuga possimus iste.</p>
-
+  
     <div class="row">
-      <template x-for="(item, index) in items" x-key="index">
+      <template x-for="(item, index) in items" :key="index">
         <div class="product-card">
-        <div class="product-icons">
-          <a href="#" @click.prevent="$store.cart.add(item)">
-            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round">
-            <use href="img/feather-sprite.svg#shopping-cart" />
-            </svg>
-          </a>
-          <a href="#item-detail-modal-1" class="item-detail-button">
-            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round">
-            <use href="img/feather-sprite.svg#eye" />
-            </svg>
-          </i></a>
-        </div>
-        <div class="product-image">
-          <img :src="'img/' + item.img" :alt="item.name" height="200">
-        </div>
-        <div class="product-content">
-          <h3 x-text="item.name"></h3>
-          <div class="product-price">Rp <span x-text="item.price"></span></div>
-        </div>
+          <div class="product-icons">
+            <a href="#" @click.prevent="$store.cart.add(item)">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <use href="img/feather-sprite.svg#shopping-cart" />
+              </svg>
+            </a>
+            <a href="#" class="item-detail-button" @click.prevent="openModal(index)">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <use href="img/feather-sprite.svg#eye" />
+              </svg>
+            </a>
+          </div>
+          <div class="product-image">
+            <img :src="'img/' + item.img" :alt="item.name" height="200">
+          </div>
+          <div class="product-content">
+            <h3 x-text="item.name"></h3>
+            <div class="product-price">Rp <span x-text="item.price"></span></div>
+          </div>
         </div>
       </template>
-      
-      
-      
     </div>
-  </section>
-  <!-- Products Section end -->
+  
+    <template x-for="(item, index) in items" :key="'modal-' + index">
+      <div
+        x-show="activeModal === index"
+        class="modal"
+        @click.away="closeModal"
+        x-transition
+        style="display: none;">
+        <div class="modal-container">
+          <a href="#" class="close-icon" @click.prevent="closeModal">
+            <i data-feather="x"></i>
+          </a>
+          <div class="modal-content">
+            <img :src="'img/' + item.img" :alt="item.name">
+            <div class="product-content">
+              <h3 x-text="item.name"></h3>
+              <p x-text="item.description"></p>
+              <div class="product-price">Rp <span x-text="item.price"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+  </section>  
+<!-- Products Section end -->
+
 
   <!-- Contact Section start -->
   <section id="contact" class="contact">
@@ -197,11 +217,7 @@
 
   <!-- Footer start -->
   <footer>
-    <div class="socials">
-      <a href="#"><i data-feather="instagram"></i></a>
-      <a href="#"><i data-feather="twitter"></i></a>
-      <a href="#"><i data-feather="facebook"></i></a>
-    </div>
+   
 
     <div class="links">
       <a href="#home">Home</a>

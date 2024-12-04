@@ -1,6 +1,6 @@
 :root {
-    --primary: #c77e10;
-    --bg: #010101;
+    --primary: #f87b1b;
+    --bg: #11224e;
   }
   
   * {
@@ -299,7 +299,7 @@
     font-size: 1.6rem;
     margin-top: 1rem;
     line-height: 1.4;
-    font-weight: 100;
+    font-weight: 300;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
     mix-blend-mode: difference;
   }
@@ -317,14 +317,12 @@
   
   /* About Section */
   .about,
-  .menu,
   .products,
   .contact {
     padding: 8rem 7% 1.4rem;
   }
   
   .about h2,
-  .menu h2,
   .products h2,
   .contact h2 {
     text-align: center;
@@ -333,7 +331,6 @@
   }
   
   .about h2 span,
-  .menu h2 span,
   .products h2 span,
   .contact h2 span {
     color: var(--primary);
@@ -357,7 +354,7 @@
   .about .row .content p {
     margin-bottom: 0.8rem;
     font-size: 1.3rem;
-    font-weight: 100;
+    font-weight: 300;
     line-height: 1.6;
   }
   
@@ -427,7 +424,7 @@
   .contact .row {
     display: flex;
     margin-top: 2rem;
-    background-color: #222;
+    background-color: #272d4e;
   }
   
   .contact .row .map {
@@ -476,23 +473,14 @@
     padding: 1rem 0 3rem;
     margin-top: 3rem;
   }
-  
-  footer .socials {
-    padding: 1rem 0;
-  }
-  
-  footer .socials a {
-    color: #fff;
-    margin: 1rem;
-  }
-  
-  footer .socials a:hover,
+ 
   footer .links a:hover {
     color: var(--bg);
   }
   
   footer .links {
     margin-bottom: 1.4rem;
+    padding: 1rem 0;
   }
   
   footer .links a {

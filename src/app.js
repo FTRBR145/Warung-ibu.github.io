@@ -1,11 +1,18 @@
 document.addEventListener('alpine:init', () => {
-    Alpine.data('products', () => ({
+    Alpine.data('products',  () => ({
         items: [
-            { id: 1, name: 'Kornet Lada Hitam', img: 'product1.png', price: 7000 },
-            { id: 2, name: 'Ice Cream', img: 'product2.png', price: 5000 },
-            { id: 3, name: 'Chicken Katsu', img: 'product3.png', price: 7000 },
-            { id: 4, name: 'Chiken teriyaki', img: 'product4.png', price: 7000 },
+            { id: 1, name: 'Kornet Lada Hitam', img: 'product1.png', price: 7000, description: 'Kornet dengan lada hitam.' },
+            { id: 2, name: 'Ice Cream', img: 'product2.png', price: 5000, description: 'Es krim yang segar.' },
+            { id: 3, name: 'Chicken Katsu', img: 'product3.png', price: 7000, description: 'Ayam katsu renyah.' },
+            { id: 4, name: 'Chiken teriyaki', img: 'product4.png', price: 7000, description: 'Chicken teriyaki dengan rasa khas.' },
       ],
+      activeModal: null, // Menyimpan indeks modal yang sedang aktif
+      openModal(index) {
+          this.activeModal = index; // Mengatur modal yang aktif
+      },
+      closeModal() {
+          this.activeModal = null; // Menutup modal dengan mengatur ke null
+      },
     }));
 
     Alpine.store('cart', {

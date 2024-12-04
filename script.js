@@ -40,39 +40,3 @@ document.addEventListener('click', function (e) {
     shoppingCart.classList.remove('active');
   }
 });
-
-// Menangkap semua tombol detail produk
-const itemDetailButtons = document.querySelectorAll('.item-detail-button');
-
-// Menangkap semua modal
-const modals = document.querySelectorAll('.modal');
-
-// Fungsi untuk menampilkan modal yang sesuai
-itemDetailButtons.forEach((btn) => {
-  btn.onclick = (e) => {
-    e.preventDefault();
-    const modalId = btn.getAttribute('href'); // Mendapatkan ID modal dari atribut href
-    const modal = document.querySelector(modalId); // Seleksi modal berdasarkan ID
-    if (modal) {
-      modal.style.display = 'flex'; // Tampilkan modal
-    }
-  };
-});
-
-// Menutup modal ketika tombol "close" diklik
-document.querySelectorAll('.modal .close-icon').forEach((closeIcon) => {
-  closeIcon.onclick = (e) => {
-    e.preventDefault();
-    const modal = closeIcon.closest('.modal'); // Cari modal induk
-    modal.style.display = 'none'; // Sembunyikan modal
-  };
-});
-
-// Menutup modal ketika area luar modal diklik
-window.onclick = (e) => {
-  modals.forEach((modal) => {
-    if (e.target === modal) {
-      modal.style.display = 'none'; // Sembunyikan modal jika klik di luar konten
-    }
-  });
-};
