@@ -29,13 +29,12 @@
 
   <!-- Navbar start -->
   <nav class="navbar" x-data>
-    <a href="#" class="navbar-logo">Toko<span>Ibu</span>.</a>
+    <a href="#" class="navbar-logo">Warung<span>Ibu</span>.</a>
 
     <div class="navbar-nav">
       <a href="#home">Home</a>
-      <a href="#about">Tentang Kami</a>
       <a href="#products">Produk</a>
-      <a href="#contact">Kontak</a>
+      <a href="#about">Tentang Kami</a>
     </div>
 
     <div class="navbar-extra">
@@ -76,23 +75,25 @@
 
     <div class="form-container" x-show="$store.cart.items.length">
       <h5>Checkout Form</h5>
-      <form>
-          <label>
-              <span>Nama:</span>
-              <input type="text" placeholder="Masukkan nama Anda" required>
-          </label>
-          <label>
-              <span>Email:</span>
-              <input type="email" placeholder="Masukkan email Anda" required>
-          </label>
-          <label>
-              <span>Telepon:</span>
-              <input type="tel" placeholder="Masukkan nomor telepon Anda" required>
-          </label>
-          <button type="submit" class="checkout-button">Checkout</button>
-      </form>
+      <form id="checkout-form">
+        <label>
+            <span>Nama:</span>
+            <input type="text" id="customer-name" placeholder="Masukkan nama Anda" required>
+        </label>
+        <label>
+            <span>Email:</span>
+            <input type="email" id="customer-email" placeholder="Masukkan email Anda" required>
+        </label>
+        <label>
+            <span>Telepon:</span>
+            <input type="tel" id="customer-phone" placeholder="Masukkan nomor telepon Anda" required>
+        </label>
+        <button type="submit" class="checkout-button">Checkout</button>
+    </form>
+    
   </div>
   </div>
+
     <!-- Shopping Cart end -->
 
   </nav>
@@ -109,10 +110,81 @@
   </section>
   <!-- Hero Section end -->
 
+  
+  <!-- Products Section start -->
+  <section class="products" id="products" x-data="products">
+    <h2><span>Produk</span> Kami</h2>
+    <p>Temukan berbagai produk favorit kami di bawah ini:</p>
+    
+    <!-- Daftar Produk -->
+    <div class="row">
+      <template x-for="(item, index) in items" :key="index">
+        <div class="product-card">
+          <div class="product-icons">
+            <!-- Tombol Tambah ke Keranjang -->
+            <a href="#" @click.prevent="$store.cart.add(item)">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <use href="img/feather-sprite.svg#shopping-cart" />
+              </svg>
+            </a>
+            <!-- Tombol Detail Produk -->
+            <a href="#" @click.prevent="openModal(index)">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <use href="img/feather-sprite.svg#eye" />
+              </svg>
+            </a>
+          </div>
+          <div class="product-image">
+            <img :src="'img/' + item.img" :alt="item.name">
+          </div>
+          <div class="product-content">
+            <h3 x-text="item.name"></h3>
+            <div class="product-price">Rp <span x-text="item.price"></span></div>
+          </div>
+        </div>
+      </template>
+    </div>
+  
+      <!-- Modal Box -->
+  
+      <div
+        x-show="activeModal !== null"
+        class="modal"
+        @click.away="closeModal"
+        x-transition
+        style="display: none;">
+        <div class="modal-container" @click.stop>
+          <a hre f="#" class="close-icon" @click.prevent="closeModal">
+            <i data-feather="x"></i>
+          </a>
+          <div class="modal-content">
+            <div class="modal-image">
+              <img :src="'img/' + items[activeModal].img" :alt="items[activeModal].name">
+            </div>
+            <div class="modal-details">
+              <h3 x-text="items[activeModal].name"></h3>
+              <p x-text="items[activeModal].description"></p>
+              <div class="modal-price">Rp <span x-text="items[activeModal].price"></span></div>
+              <button class="add-to-cart-button" @click="$store.cart.add(items[activeModal])">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <use href="img/feather-sprite.svg#shopping-cart" />
+              </svg>Tambah ke keranjang</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  <!-- Products Section end -->  
+  
   <!-- About Section start -->
   <section id="about" class="about">
     <h2><span>Tentang</span> Kami</h2>
-
+  
     <div class="row">
       <div class="content">
         <h3>Kenapa memilih warung kami?</h3>
@@ -123,107 +195,14 @@
   </section>
   <!-- About Section end -->
 
- 
-
-  <!-- Products Section start -->
-  <section class="products" id="products" x-data="products">
-    <h2><span>Produk</span> Kami</h2>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo unde eum, ab fuga possimus iste.</p>
-  
-    <div class="row">
-      <template x-for="(item, index) in items" :key="index">
-        <div class="product-card">
-          <div class="product-icons">
-            <a href="#" @click.prevent="$store.cart.add(item)">
-              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
-                <use href="img/feather-sprite.svg#shopping-cart" />
-              </svg>
-            </a>
-            <a href="#" class="item-detail-button" @click.prevent="openModal(index)">
-              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
-                <use href="img/feather-sprite.svg#eye" />
-              </svg>
-            </a>
-          </div>
-          <div class="product-image">
-            <img :src="'img/' + item.img" :alt="item.name" height="200">
-          </div>
-          <div class="product-content">
-            <h3 x-text="item.name"></h3>
-            <div class="product-price">Rp <span x-text="item.price"></span></div>
-          </div>
-        </div>
-      </template>
-    </div>
-  
-    <template x-for="(item, index) in items" :key="'modal-' + index">
-      <div
-        x-show="activeModal === index"
-        class="modal"
-        @click.away="closeModal"
-        x-transition
-        style="display: none;">
-        <div class="modal-container">
-          <a href="#" class="close-icon" @click.prevent="closeModal">
-            <i data-feather="x"></i>
-          </a>
-          <div class="modal-content">
-            <img :src="'img/' + item.img" :alt="item.name">
-            <div class="product-content">
-              <h3 x-text="item.name"></h3>
-              <p x-text="item.description"></p>
-              <div class="product-price">Rp <span x-text="item.price"></span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </template>
-  </section>  
-<!-- Products Section end -->
-
-
-  <!-- Contact Section start -->
-  <section id="contact" class="contact">
-    <h2><span>Kontak</span> Kami</h2>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, provident.
-    </p>
-
-    <div class="row">
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d589.1763484151518!2d106.7582542008137!3d-6.585819444215647!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69c5457e0e3bcf%3A0x58481d58737539c0!2sSMK%20Negeri%201%20Ciomas!5e0!3m2!1sid!2sid!4v1732698330599!5m2!1sid!2sid"
-        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="map"></iframe>
-
-      <form action="">
-        <div class="input-group">
-          <i data-feather="user"></i>
-          <input type="text" placeholder="nama">
-        </div>
-        <div class="input-group">
-          <i data-feather="mail"></i>
-          <input type="text" placeholder="email">
-        </div>
-        <div class="input-group">
-          <i data-feather="phone"></i>
-          <input type="text" placeholder="no hp">
-        </div>
-        <button type="submit" class="btn">kirim pesan</button>
-      </form>
-
-    </div>
-  </section>
-  <!-- Contact Section end -->
-
   <!-- Footer start -->
   <footer>
    
 
     <div class="links">
       <a href="#home">Home</a>
-      <a href="#about">Tentang Kami</a>
       <a href="#products">Produk</a>
-      <a href="#contact">Kontak</a>
+      <a href="#about">Tentang Kami</a>
     </div>
 
     <div class="credit">
@@ -231,53 +210,6 @@
     </div>
   </footer>
   <!-- Footer end -->
-
-  <!-- Modal Box Item Detail untuk setiap produk -->
-<div class="modal" id="item-detail-modal-1">
-  <div class="modal-container">
-    <a href="#" class="close-icon"><i data-feather="x"></i></a>
-    <div class="modal-content">
-      <img src="img/product1.png" alt="Sosis Kornet Lada Hitam">
-      <div class="product-content">
-        <h3>Sosis Kornet Lada Hitam</h3>
-        <p>Sosis dengan kornet sapi pilihan dan lada hitam yang gurih. Cocok untuk menemani santap siang atau camilan sore.</p>
-        <div class="product-price">Rp 7.000</div>
-        <a href="#"><i data-feather="shopping-cart"></i> <span>add to cart</span></a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="item-detail-modal-2">
-  <div class="modal-container">
-    <a href="#" class="close-icon"><i data-feather="x"></i></a>
-    <div class="modal-content">
-      <img src="img/product2.png" alt="Ice Cream">
-      <div class="product-content">
-        <h3>Ice Cream</h3>
-        <p>Es krim lembut dengan berbagai rasa manis yang menyegarkan. Pilihan sempurna untuk hari yang panas.</p>
-        <div class="product-price">Rp 5.000</div>
-        <a href="#"><i data-feather="shopping-cart"></i> <span>add to cart</span></a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="item-detail-modal-3">
-  <div class="modal-container">
-    <a href="#" class="close-icon"><i data-feather="x"></i></a>
-    <div class="modal-content">
-      <img src="img/product3.png" alt="Chicken Katsu">
-      <div class="product-content">
-        <h3>Chicken Katsu</h3>
-        <p>Chicken katsu renyah dengan daging ayam segar dan tepung crispy khas. Cocok dinikmati dengan saus spesial.</p>
-        <div class="product-price">Rp 7.000</div>
-        <a href="#"><i data-feather="shopping-cart"></i> <span>add to cart</span></a>
-      </div>
-    </div>
-  </div>
-</div>
-
 
   <!-- Feather Icons -->
   <script>
